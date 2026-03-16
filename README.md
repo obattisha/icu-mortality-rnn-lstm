@@ -1,30 +1,45 @@
-# Final Report
+# icu-mortality-rnn-lstm
 
-**Final Report** (*35%*): The final project report is the distillation of your group's efforts over the course of the quarter. **Only one report** should be submitted by your group, with each person's name on the report. It should be around 12-15 pages double spaced, excluding references (but you can have an Appendix of any length you like). Note that _all code should be placed in the Appendix, different than the problem sets_. Code must be submitted for reproducibility. The final report should contain some combination (if not all) of the following sections:
-	
-* Title Page and Contribution Statement (listing all group members and their roles in the project; note that by typing your name on the project, you agree that you contributed *equally* to the project)
-* Introduction, motivation, and (light) literature review
-* Empirical Strategy (methods, data, preprocessing, etc.)
-* Analysis & Results
-* Discussion
-* Conclusion
+Deep learning project predicting 30-day hospital mortality for ICU patients using time-series vital sign measurements and static comorbidity features.
 
+Built as a machine learning course final project (Battisha & Bhavani).
 
-# Final Presentation Schedule
+## Problem
 
-### Monday, 3/9: Presentations, Day 1
+Early and accurate prediction of ICU patient mortality is a critical clinical challenge. This project frames it as a binary classification task and compares two sequence models on a real patient dataset.
 
-* Li, Liu, Zhang, Zhou
-* Karsten, Max, Turkcapar
-* Yang, Wei
-* Kim, Minami, Feng, Song
-* Sun, Yin, Yuan
-* Suchak, Rangwani, Ansehl, Carrion
+## Models
 
-### Wednesday, 3/11: Presentations, Day 2
+**Conditional RNN** (primary model)
+Uses the [`cond_rnn`](https://github.com/philipperemy/cond_rnn) library to jointly process time-varying vital signs and time-invariant patient characteristics in a single recurrent network, avoiding the need to replicate static features across timesteps.
 
-* Liu, Luo, Yang
-* Glaser, Wright, Do, Jo, Cao
-* Cinar, Cuppernull, Harrison, Mallon
-* Bertoldi, Ghanta, Gill, Shah
-* Battisha, Bhavani
+**LSTM** (baseline)
+Standard long short-term memory network on the same data for direct comparison.
+
+## Data
+
+~2,580 ICU patients with:
+- **Time-varying features** (hourly, 25-hour window): heart rate, respiratory rate, systolic BP, diastolic BP, body temperature, oxygen saturation
+- **Static comorbidities** (8 binary flags): COPD, heart failure, renal disease, and others
+- **Outcome**: 30-day mortality (binary)
+
+## Evaluation
+
+- ROC-AUC
+- Confusion matrix
+- Calibration plots
+- 5-fold stratified cross-validation
+
+## Files
+
+| File | Description |
+|------|-------------|
+| `Data_Cleaning.ipynb` | Preprocessing: forward/backward fill of missing vitals, standardization, reshape to 3D tensor |
+| `Conditional_RNN-LSTM.ipynb` | Model training and evaluation for both architectures |
+| `Final Report.pdf` | Full written report |
+| `proposal/Proposal.pdf` | Original project proposal |
+| `ml_standardized.csv` / `ml_fixed.csv` | Processed patient data |
+
+## Requirements
+
+Python 3 with: `tensorflow`, `keras`, `cond_rnn`, `pandas`, `numpy`, `scikit-learn`, `matplotlib`
