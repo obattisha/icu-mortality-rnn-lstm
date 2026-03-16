@@ -8,13 +8,10 @@ Built as a machine learning course final project (Battisha & Bhavani).
 
 Early and accurate prediction of ICU patient mortality is a critical clinical challenge. This project frames it as a binary classification task and compares two sequence models on a real patient dataset.
 
-## Models
+## Model
 
-**Conditional RNN** (primary model)
+**Conditional RNN with LSTM Units**
 Uses the [`cond_rnn`](https://github.com/philipperemy/cond_rnn) library to jointly process time-varying vital signs and time-invariant patient characteristics in a single recurrent network, avoiding the need to replicate static features across timesteps.
-
-**LSTM** (baseline)
-Standard long short-term memory network on the same data for direct comparison.
 
 ## Data
 
